@@ -1,0 +1,65 @@
+name: Scheduled Smart Contract CI
+
+on:
+  # ── Scheduled runs ──────────────────────────────────────────────
+  schedule:
+    - cron: "0 6 * * 1"   # Every Monday at 06:00 UTC (weekly)
+    # Uncomment below for daily runs at 06:00 UTC instead:
+    # - cron: "0 6 * * *"
+
+  # ── Also run on every push / PR to main ─────────────────────────
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  # ── Allow manual trigger from GitHub UI ─────────────────────────
+  workflow_dispatch:
+
+jobs:
+  compile-and-test:
+    name: Compile & Test (Solidity ${{ matrix.solidity }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20]
+        solidity: ["0.8.20"]
+
+    steps:
+      # 1. Checkout source
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Compile contracts
+      - name: Compile contracts
+        run: npm run compile
+
+      # 5. Run tests
+      - name: Run tests
+        run: npm test
+
+      # 6. (Optional) Generate coverage report
+      - name: Generate coverage report
+        run: npm run coverage
+        continue-on-error: true   # don't fail the job if coverage drops
+
+      # 7. Upload coverage artifact so you can download it from the Actions tab
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 14
