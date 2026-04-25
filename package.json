@@ -1,0 +1,15 @@
+{
+  "name": "smart-contract-2",
+  "version": "1.0.0",
+  "description": "Simple Solidity smart contract with scheduled CI testing via GitHub Actions",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "clean": "hardhat clean"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0"
+  }
+}
