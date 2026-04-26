@@ -1,4 +1,4 @@
-# 📦 Smart Contract 2 — SimpleStorage
+# 📦 DJ's Solidity Lab 
 
 ![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?logo=solidity)
 ![Hardhat](https://img.shields.io/badge/Built%20with-Hardhat-yellow?logo=ethereum)
@@ -12,7 +12,7 @@ A minimal, production-ready **Solidity smart contract** built on Hardhat with au
 ## 📁 Project Structure
 
 ```
-Smart_contract-2/
+Lab/
 │
 ├── .github/
 │   └── workflows/
